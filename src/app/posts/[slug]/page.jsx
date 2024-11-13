@@ -4,12 +4,9 @@ import Image from "next/image";
 import Comments from "@/components/comments/Comments";
 
 const getData = async (slug) => {
-  const res = await fetch(
-    `https://blogging-pink.vercel.app/api/posts/${slug}`,
-    {
-      cache: "no-store",
-    }
-  );
+  const res = await fetch(`${process.env.API_URL}/api/posts/${slug}`, {
+    cache: "no-store",
+  });
 
   if (!res.ok) {
     throw new Error("Failed");

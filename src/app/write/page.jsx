@@ -12,12 +12,8 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { app } from "@/utils/firebase";
-import dynamic from "next/dynamic";
-
-const ReactQuill = dynamic(() => import("react-quill"), {
-  ssr: false,
-  loading: () => <p>Loading editor...</p>,
-});
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 
 export default function WritePage() {
   const { status } = useSession();
@@ -26,14 +22,15 @@ export default function WritePage() {
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState(null);
   const [media, setMedia] = useState("");
-  const [value, setValue] = useState("");
   const [title, setTitle] = useState("");
   const [catSlug, setCatSlug] = useState("");
-  const [isClient, setIsClient] = useState(false);
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: "",
+    autofocus: false,
+    editable: true,
+  });
 
   useEffect(() => {
     const storage = getStorage(app);
@@ -92,7 +89,7 @@ export default function WritePage() {
       method: "POST",
       body: JSON.stringify({
         title,
-        desc: value,
+        desc: editor.getHTML(),
         img: media,
         slug: slugify(title),
         catSlug: catSlug || "style", //If not selected, choose the general category
@@ -149,15 +146,7 @@ export default function WritePage() {
             </button>
           </div>
         )}
-        {isClient && (
-          <ReactQuill
-            className={styles.textArea}
-            theme="bubble"
-            value={value}
-            onChange={setValue}
-            placeholder="Tell your story..."
-          />
-        )}
+        <EditorContent editor={editor} className={styles.textArea} />
       </div>
       <button className={styles.publish} onClick={handleSubmit}>
         Publish
