@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 const getData = async () => {
-  const res = await fetch(`${process.env.API_URL}/api/categories`, {
+  const res = await fetch("https://blogging-pink.vercel.app/api/categories", {
     cache: "no-store",
   });
 
