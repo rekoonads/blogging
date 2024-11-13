@@ -9,7 +9,6 @@ import { useSession } from "next-auth/react";
 
 const fetcher = async (url) => {
   const res = await fetch(url);
-
   const data = await res.json();
 
   if (!res.ok) {
@@ -21,16 +20,15 @@ const fetcher = async (url) => {
 
 const Comments = ({ postSlug }) => {
   const { status } = useSession();
-
   const { data, mutate, isLoading } = useSWR(
-    `https://blogging-pink.vercel.app/api/comments?postSlug=${postSlug}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/comments?postSlug=${postSlug}`,
     fetcher
   );
 
   const [desc, setDesc] = useState("");
 
   const handleSubmit = async () => {
-    await fetch("/api/comments", {
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/comments`, {
       method: "POST",
       body: JSON.stringify({ desc, postSlug }),
     });
@@ -52,12 +50,12 @@ const Comments = ({ postSlug }) => {
           </button>
         </div>
       ) : (
-        <Link href={"/login"}>Login to write a comment</Link>
+        <Link href="/login">Login to write a comment</Link>
       )}
       <div className={styles.comments}>
         {isLoading
           ? "loading"
-          : data.map((item) => (
+          : data?.map((item) => (
               <div className={styles.comment} key={item._id}>
                 <div className={styles.user}>
                   {item?.user?.image && (

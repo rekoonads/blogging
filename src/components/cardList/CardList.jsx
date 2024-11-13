@@ -6,7 +6,9 @@ import Card from "../card/Card";
 
 const getData = async (page, cat) => {
   const res = await fetch(
-    `https://blogging-pink.vercel.app/api/posts?page=${page}&cat=${cat || ""}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/posts?page=${page}&cat=${
+      cat || ""
+    }`,
     {
       cache: "no-store",
     }
