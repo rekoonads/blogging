@@ -1,11 +1,23 @@
 .container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
+
+.select {
+  margin-bottom: 50px;
+  padding: 10px 20px;
+  margin-left: 50px;
+  width: max-content;
+}
+
 .editor {
   display: flex;
   gap: 20px;
   height: 700px;
   position: relative;
 }
+
 .button,
 .addButton {
   width: 36px;
@@ -18,6 +30,7 @@
   justify-content: center;
   cursor: pointer;
 }
+
 .addButton {
   border-color: #1a8917;
 }
@@ -38,6 +51,7 @@
   border: none;
   outline: none;
   background-color: transparent;
+  color: var(--textColor);
 }
 
 .input::placeholder {
@@ -50,8 +64,8 @@
 
 .publish {
   position: absolute;
-  top: 30px;
-  right: 20px;
+  top: 0px;
+  right: 0px;
   padding: 10px 20px;
   border: none;
   background-color: #1a8917;
