@@ -23,7 +23,7 @@ const Comments = ({ postSlug }) => {
   const { status } = useSession();
 
   const { data, mutate, isLoading } = useSWR(
-    `http://localhost:3000/api/comments?postSlug=${postSlug}`,
+    `https://blogging-pink.vercel.app/api/comments?postSlug=${postSlug}`,
     fetcher
   );
 
