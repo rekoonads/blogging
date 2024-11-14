@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import dynamic from "next/dynamic";
-import styles from "./WritePage.module.css";
+import styles from "./writePage.module.css";
 
 const DynamicTiptap = dynamic(() => import("./Tiptap"), {
   loading: () => <p>Loading editor...</p>,
