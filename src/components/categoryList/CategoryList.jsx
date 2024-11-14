@@ -9,7 +9,7 @@ const getData = async () => {
   });
 
   if (!res.ok) {
-    throw new Error("Failed");
+    throw new Error("Failed to fetch categories");
   }
   return res.json();
 };
@@ -22,14 +22,14 @@ const CategoryList = async () => {
       <div className={styles.categories}>
         {data?.map((item) => (
           <Link
-            href={"/blog?cat=style"}
+            href={`/blog?cat=${item.slug}`}
             className={`${styles.category} ${styles[item.slug]}`}
             key={item._id}
           >
             {item.img && (
               <Image
                 src={item.img}
-                alt=""
+                alt={`${item.title} category`}
                 width={32}
                 height={32}
                 className={styles.image}
