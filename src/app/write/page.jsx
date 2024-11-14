@@ -4,15 +4,9 @@ import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useEditor } from "@tiptap/react";
+import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import dynamic from "next/dynamic";
 import styles from "./writePage.module.css";
-
-const DynamicTiptap = dynamic(() => import("./Tiptap"), {
-  loading: () => <p>Loading editor...</p>,
-  ssr: false,
-});
 
 export default function WritePage() {
   const { status } = useSession();
@@ -26,23 +20,36 @@ export default function WritePage() {
   const [uploadError, setUploadError] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [file, setFile] = useState(null);
-  const [editorContent, setEditorContent] = useState("");
 
   const fileInputRef = useRef(null);
 
   const editor = useEditor({
     extensions: [StarterKit],
     content: "",
-    onUpdate: ({ editor }) => {
-      setEditorContent(editor.getHTML());
+    editorProps: {
+      attributes: {
+        class: styles.tiptapEditor,
+      },
     },
   });
 
   useEffect(() => {
-    if (editor && editorContent) {
-      editor.commands.setContent(editorContent);
-    }
-  }, [editor, editorContent]);
+    const handleDarkMode = (e) => {
+      if (e.matches) {
+        document.body.classList.add("dark");
+      } else {
+        document.body.classList.remove("dark");
+      }
+    };
+
+    const darkModeMediaQuery = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    );
+    darkModeMediaQuery.addListener(handleDarkMode);
+    handleDarkMode(darkModeMediaQuery);
+
+    return () => darkModeMediaQuery.removeListener(handleDarkMode);
+  }, []);
 
   if (status === "loading") {
     return <div className={styles.loading}>Loading...</div>;
@@ -111,6 +118,8 @@ export default function WritePage() {
   };
 
   const handleSubmit = async () => {
+    if (!editor) return;
+
     console.log("Submitting post with image URL:", media);
     const res = await fetch("/api/posts", {
       method: "POST",
@@ -119,7 +128,7 @@ export default function WritePage() {
       },
       body: JSON.stringify({
         title,
-        desc: editorContent,
+        desc: editor.getHTML(),
         img: media,
         slug: slugify(title),
         catSlug: catSlug || "style",
@@ -239,7 +248,7 @@ export default function WritePage() {
               Image uploaded successfully!
             </div>
           )}
-          <DynamicTiptap editor={editor} />
+          <EditorContent editor={editor} />
           <button className={styles.publish} onClick={handleSubmit}>
             Publish
           </button>
