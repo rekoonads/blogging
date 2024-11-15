@@ -3,17 +3,10 @@
   align-items: center;
   justify-content: space-between;
   height: 100px;
-}
-
-.social {
-  display: flex;
-  gap: 10px;
-  flex: 1;
+  padding: 0 20px; /* Add some padding to the container */
 }
 
 .logo {
-  flex: 1;
-  text-align: center;
   font-size: 36px;
   font-weight: bold;
 }
@@ -22,7 +15,6 @@
   display: flex;
   align-items: center;
   gap: 20px;
-  flex: 1;
   font-size: 20px;
 }
 
@@ -35,22 +27,34 @@
     gap: 15px;
   }
 }
+
 @media screen and (max-width: 1024px) {
-  .social {
-    display: none;
-  }
   .logo {
-    text-align: left;
+    font-size: 28px;
   }
 }
+
 @media screen and (max-width: 768px) {
   .logo {
     font-size: 24px;
   }
-}
-@media screen and (max-width: 640px) {
   .links {
-    justify-content: flex-end;
+    gap: 10px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .container {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+  }
+  .logo {
+    margin-bottom: 10px;
+  }
+  .links {
+    width: 100%;
+    justify-content: space-between;
   }
   .link {
     display: none;
