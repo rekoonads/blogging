@@ -1,13 +1,13 @@
 "use client";
+
 import Link from "next/link";
 import styles from "./authLinks.module.css";
 import { useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 
-const AuthLinks = () => {
+export default function AuthLinks() {
   const [open, setOpen] = useState(false);
-
-  const { status } = useSession();
+  const { data: session, status } = useSession();
 
   return (
     <>
@@ -17,10 +17,12 @@ const AuthLinks = () => {
         </Link>
       ) : (
         <>
-          <Link href="/write" className={styles.link}>
-            Write
-          </Link>
-          <span className={styles.link} onClick={signOut}>
+          {session?.user?.isAllowedToWrite && (
+            <Link href="/write" className={styles.link}>
+              Write
+            </Link>
+          )}
+          <span className={styles.link} onClick={() => signOut()}>
             Logout
           </span>
         </>
@@ -33,20 +35,20 @@ const AuthLinks = () => {
       {open && (
         <div className={styles.responsiveMenu}>
           <Link href="/">Homepage</Link>
-          <Link href="/">About</Link>
-          <Link href="/">Contact</Link>
-          {status === "notauthenticated" ? (
+          {status === "unauthenticated" ? (
             <Link href="/login">Login</Link>
           ) : (
             <>
-              <Link href="/write">Write</Link>
-              <span className={styles.link}>Logout</span>
+              {session?.user?.isAllowedToWrite && (
+                <Link href="/write">Write</Link>
+              )}
+              <span className={styles.link} onClick={() => signOut()}>
+                Logout
+              </span>
             </>
           )}
         </div>
       )}
     </>
   );
-};
-
-export default AuthLinks;
+}

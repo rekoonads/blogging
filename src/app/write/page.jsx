@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import styles from "./writePage.module.css";
+import AuthorOnly from "@/components/AuthorOnly";
 
 export default function WritePage() {
   const { status } = useSession();
@@ -145,115 +146,124 @@ export default function WritePage() {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.content}>
-        <div className={styles.header}>
-          <input
-            type="text"
-            placeholder="Title"
-            className={styles.input}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <select
-            className={styles.select}
-            onChange={(e) => setCatSlug(e.target.value)}
-          >
-            <option value="">Select a category</option>
-            <option value="style">Style</option>
-            <option value="fashion">Fashion</option>
-            <option value="food">Food</option>
-            <option value="culture">Culture</option>
-            <option value="travel">Travel</option>
-            <option value="coding">Coding</option>
-          </select>
-        </div>
-        <div className={styles.editorWrapper}>
-          <div className={styles.editorToolbar}>
-            <button
-              className={styles.addMediaButton}
-              onClick={() => setOpen(!open)}
-            >
-              <Image src="/plus.png" alt="Add media" width={20} height={20} />
-              Add Media
-            </button>
-            {open && (
-              <div className={styles.mediaOptions}>
-                <input
-                  type="file"
-                  id="image"
-                  ref={fileInputRef}
-                  onChange={handleFileChange}
-                  style={{ display: "none" }}
-                />
+    <>
+      <AuthorOnly>
+        <div className={styles.container}>
+          <div className={styles.content}>
+            <div className={styles.header}>
+              <input
+                type="text"
+                placeholder="Title"
+                className={styles.input}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+              <select
+                className={styles.select}
+                onChange={(e) => setCatSlug(e.target.value)}
+              >
+                <option value="">Select a category</option>
+                <option value="style">Style</option>
+                <option value="fashion">Fashion</option>
+                <option value="food">Food</option>
+                <option value="culture">Culture</option>
+                <option value="travel">Travel</option>
+                <option value="coding">Coding</option>
+              </select>
+            </div>
+            <div className={styles.editorWrapper}>
+              <div className={styles.editorToolbar}>
                 <button
-                  className={styles.mediaButton}
-                  onClick={() => fileInputRef.current?.click()}
+                  className={styles.addMediaButton}
+                  onClick={() => setOpen(!open)}
                 >
                   <Image
-                    src="/image.png"
-                    alt="Add image"
+                    src="/plus.png"
+                    alt="Add media"
                     width={20}
                     height={20}
                   />
-                  Image
+                  Add Media
                 </button>
-                <button className={styles.mediaButton}>
-                  <Image
-                    src="/external.png"
-                    alt="Add link"
-                    width={20}
-                    height={20}
-                  />
-                  Link
-                </button>
-                <button className={styles.mediaButton}>
-                  <Image
-                    src="/video.png"
-                    alt="Add video"
-                    width={20}
-                    height={20}
-                  />
-                  Video
-                </button>
+                {open && (
+                  <div className={styles.mediaOptions}>
+                    <input
+                      type="file"
+                      id="image"
+                      ref={fileInputRef}
+                      onChange={handleFileChange}
+                      style={{ display: "none" }}
+                    />
+                    <button
+                      className={styles.mediaButton}
+                      onClick={() => fileInputRef.current?.click()}
+                    >
+                      <Image
+                        src="/image.png"
+                        alt="Add image"
+                        width={20}
+                        height={20}
+                      />
+                      Image
+                    </button>
+                    <button className={styles.mediaButton}>
+                      <Image
+                        src="/external.png"
+                        alt="Add link"
+                        width={20}
+                        height={20}
+                      />
+                      Link
+                    </button>
+                    <button className={styles.mediaButton}>
+                      <Image
+                        src="/video.png"
+                        alt="Add video"
+                        width={20}
+                        height={20}
+                      />
+                      Video
+                    </button>
+                  </div>
+                )}
               </div>
-            )}
+              {previewUrl && (
+                <div className={styles.imagePreview}>
+                  <Image
+                    src={previewUrl}
+                    alt="Preview"
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                </div>
+              )}
+              {uploadProgress > 0 && uploadProgress < 100 && (
+                <div className={styles.uploadStatus}>
+                  <div className={styles.progressBar}>
+                    <div
+                      className={styles.progressFill}
+                      style={{ width: `${uploadProgress}%` }}
+                    ></div>
+                  </div>
+                </div>
+              )}
+              {uploadError && (
+                <div className={styles.errorMessage}>
+                  Error uploading image: {uploadError}
+                </div>
+              )}
+              {media && (
+                <div className={styles.successMessage}>
+                  Image uploaded successfully!
+                </div>
+              )}
+              <EditorContent editor={editor} />
+              <button className={styles.publish} onClick={handleSubmit}>
+                Publish
+              </button>
+            </div>
           </div>
-          {previewUrl && (
-            <div className={styles.imagePreview}>
-              <Image
-                src={previewUrl}
-                alt="Preview"
-                layout="fill"
-                objectFit="cover"
-              />
-            </div>
-          )}
-          {uploadProgress > 0 && uploadProgress < 100 && (
-            <div className={styles.uploadStatus}>
-              <div className={styles.progressBar}>
-                <div
-                  className={styles.progressFill}
-                  style={{ width: `${uploadProgress}%` }}
-                ></div>
-              </div>
-            </div>
-          )}
-          {uploadError && (
-            <div className={styles.errorMessage}>
-              Error uploading image: {uploadError}
-            </div>
-          )}
-          {media && (
-            <div className={styles.successMessage}>
-              Image uploaded successfully!
-            </div>
-          )}
-          <EditorContent editor={editor} />
-          <button className={styles.publish} onClick={handleSubmit}>
-            Publish
-          </button>
         </div>
-      </div>
-    </div>
+      </AuthorOnly>
+    </>
   );
 }
