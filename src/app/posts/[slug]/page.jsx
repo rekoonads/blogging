@@ -3,6 +3,9 @@ import styles from "./singlePage.module.css";
 import Image from "next/image";
 import Comments from "@/components/comments/Comments";
 
+import RelativeDate from "@/components/RelativeDate";
+import { formatDate } from "@/utils/utils";
+
 const getData = async (slug) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/posts/${slug}`,
@@ -12,13 +15,13 @@ const getData = async (slug) => {
   );
 
   if (!res.ok) {
-    throw new Error("Failed");
+    throw new Error("Failed to fetch post");
   }
 
   return res.json();
 };
 
-const SinglePage = async ({ params }) => {
+export default async function SinglePage({ params }) {
   const { slug } = params;
 
   const data = await getData(slug);
@@ -33,7 +36,7 @@ const SinglePage = async ({ params }) => {
               <div className={styles.userImageContainer}>
                 <Image
                   src={data.user.image}
-                  alt=""
+                  alt={`${data.user.name}'s avatar`}
                   fill
                   className={styles.avatar}
                 />
@@ -41,13 +44,22 @@ const SinglePage = async ({ params }) => {
             )}
             <div className={styles.userTextContainer}>
               <span className={styles.username}>{data?.user.name}</span>
-              <span className={styles.date}>01.01.2024</span>
+              <span className={styles.date}>
+                {formatDate(data?.createdAt)}
+                {" • "}
+                <RelativeDate dateString={data?.createdAt} />
+              </span>
             </div>
           </div>
         </div>
         {data?.img && (
           <div className={styles.imageContainer}>
-            <Image src={data.img} alt="" fill className={styles.image} />
+            <Image
+              src={data.img}
+              alt={data.title}
+              fill
+              className={styles.image}
+            />
           </div>
         )}
       </div>
@@ -65,6 +77,4 @@ const SinglePage = async ({ params }) => {
       </div>
     </div>
   );
-};
-
-export default SinglePage;
+}
