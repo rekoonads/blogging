@@ -6,7 +6,7 @@ import styles from "./navbar.module.css";
 const Navbar = () => {
   return (
     <div className={styles.container}>
-      <div className={styles.logo}>lamablog</div>
+      <div className={styles.logo}>Peen</div>
       <div className={styles.links}>
         <Link href="/" className={styles.link}>
           Homepage
