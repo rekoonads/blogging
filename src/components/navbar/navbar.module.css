@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: space-between;
   height: 100px;
-  padding: 0 20px; /* Add some padding to the container */
+  padding: 0 20px;
 }
 
 .logo {
@@ -16,6 +16,38 @@
   align-items: center;
   gap: 20px;
   font-size: 20px;
+}
+
+.link {
+  cursor: pointer;
+}
+
+.megaMenu {
+  position: relative;
+}
+
+.megaMenuContent {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+  z-index: 1000;
+}
+
+.megaMenuItem {
+  padding: 10px;
+  text-decoration: none;
+  color: #333;
+  transition: background-color 0.3s;
+}
+
+.megaMenuItem:hover {
+  background-color: #f0f0f0;
 }
 
 @media screen and (max-width: 1280px) {
@@ -56,7 +88,8 @@
     width: 100%;
     justify-content: space-between;
   }
-  .link {
+  .link,
+  .megaMenu {
     display: none;
   }
 }
