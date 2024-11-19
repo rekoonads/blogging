@@ -68,6 +68,30 @@
   margin-bottom: 20px;
 }
 
+.categoryInfo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.category,
+.subcategory {
+  color: #1a1a1a;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.category:hover,
+.subcategory:hover {
+  text-decoration: underline;
+}
+
+.separator {
+  margin: 0 0.5rem;
+  color: #666;
+}
+
 @media screen and (max-width: 1536px) {
   .title {
     font-size: 54px;

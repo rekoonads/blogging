@@ -12,11 +12,19 @@ export async function GET() {
         user: {
           select: {
             name: true,
+            image: true,
           },
         },
         cat: {
           select: {
             slug: true,
+            title: true,
+          },
+        },
+        subcategory: {
+          select: {
+            slug: true,
+            title: true,
           },
         },
       },

@@ -31,7 +31,8 @@
   gap: 5px;
 }
 
-.category {
+.category,
+.subcategory {
   padding: 3px 8px;
   border-radius: 10px;
   font-size: 12px;
@@ -39,7 +40,32 @@
   width: max-content;
 }
 
-.category.travel {
+.gaming {
+  background-color: #ff7857;
+}
+
+.reviews {
+  background-color: #57c4ff31;
+}
+
+.tech {
+  background-color: #5e4fff31;
+}
+
+.videos {
+  background-color: #7fb88133;
+}
+
+.movies {
+  background-color: #da85c731;
+}
+
+.tv {
+  background-color: #ffb04f45;
+}
+
+/* Keeping the old categories for reference */
+.travel {
   background-color: #ff7857;
 }
 

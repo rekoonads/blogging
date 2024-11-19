@@ -5,8 +5,9 @@ import { NextResponse } from "next/server";
 export const GET = async (req) => {
   const { searchParams } = new URL(req.url);
 
-  const page = searchParams.get("page");
+  const page = parseInt(searchParams.get("page") || "1", 10);
   const cat = searchParams.get("cat");
+  const subcategoryId = searchParams.get("subcategoryId");
 
   const POST_PER_PAGE = 2;
 
@@ -15,6 +16,20 @@ export const GET = async (req) => {
     skip: POST_PER_PAGE * (page - 1),
     where: {
       ...(cat && { catSlug: cat }),
+      ...(subcategoryId && { subcategoryId: subcategoryId }),
+    },
+    include: {
+      user: {
+        select: {
+          name: true,
+          image: true,
+        },
+      },
+      cat: true,
+      subcategory: true,
+    },
+    orderBy: {
+      createdAt: "desc",
     },
   };
 
@@ -44,8 +59,18 @@ export const POST = async (req) => {
 
   try {
     const body = await req.json();
+    const { title, desc, img, slug, catSlug, subcategoryId } = body;
+
     const post = await prisma.post.create({
-      data: { ...body, userEmail: session.user.email },
+      data: {
+        title,
+        desc,
+        img,
+        slug,
+        catSlug,
+        subcategoryId, // Direct assignment for MongoDB
+        userEmail: session.user.email,
+      },
     });
 
     return new NextResponse(JSON.stringify(post, { status: 200 }));

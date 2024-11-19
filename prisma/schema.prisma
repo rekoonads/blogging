@@ -58,26 +58,38 @@ model VerificationToken {
 }
 
 model Category {
-  id    String  @id @default(cuid()) @map("_id")
-  slug  String  @unique
-  title String
-  img   String?
-  Posts Post[]
+  id            String        @id @default(cuid()) @map("_id")
+  slug          String        @unique
+  title         String
+  img           String?
+  Posts         Post[]
+  Subcategories Subcategory[]
+}
+
+model Subcategory {
+  id         String   @id @default(cuid()) @map("_id")
+  slug       String   @unique
+  title      String
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+  Posts      Post[]
 }
 
 model Post {
-  id        String    @id @default(cuid()) @map("_id")
-  createdAt DateTime  @default(now())
-  slug      String    @unique
-  title     String
-  desc      String
-  img       String?
-  views     Int       @default(0)
-  catSlug   String
-  cat       Category  @relation(fields: [catSlug], references: [slug])
-  userEmail String
-  user      User      @relation(fields: [userEmail], references: [email])
-  comments  Comment[]
+  id            String       @id @default(cuid()) @map("_id")
+  createdAt     DateTime     @default(now())
+  slug          String       @unique
+  title         String
+  desc          String
+  img           String?
+  views         Int          @default(0)
+  catSlug       String
+  cat           Category     @relation(fields: [catSlug], references: [slug])
+  subcategoryId String?
+  subcategory   Subcategory? @relation(fields: [subcategoryId], references: [id])
+  userEmail     String
+  user          User         @relation(fields: [userEmail], references: [email])
+  comments      Comment[]
 }
 
 model Comment {

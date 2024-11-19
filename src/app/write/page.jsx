@@ -17,6 +17,7 @@ export default function WritePage() {
   const [media, setMedia] = useState("");
   const [title, setTitle] = useState("");
   const [catSlug, setCatSlug] = useState("");
+  const [subcategorySlug, setSubcategorySlug] = useState("");
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadError, setUploadError] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
@@ -132,7 +133,8 @@ export default function WritePage() {
         desc: editor.getHTML(),
         img: media,
         slug: slugify(title),
-        catSlug: catSlug || "style",
+        catSlug: catSlug || "gaming",
+        subcategorySlug,
       }),
     });
 
@@ -143,6 +145,15 @@ export default function WritePage() {
     } else {
       console.error("Error creating post:", await res.text());
     }
+  };
+
+  const subcategories = {
+    gaming: ["PC", "PlayStation", "Xbox", "Mobile", "Esports", "Nintendo"],
+    reviews: ["Game", "Tech", "Movie", "Comic", "TV"],
+    tech: [],
+    videos: [],
+    movies: [],
+    tv: [],
   };
 
   return (
@@ -159,16 +170,33 @@ export default function WritePage() {
               />
               <select
                 className={styles.select}
-                onChange={(e) => setCatSlug(e.target.value)}
+                onChange={(e) => {
+                  setCatSlug(e.target.value);
+                  setSubcategorySlug("");
+                }}
               >
                 <option value="">Select a category</option>
-                <option value="style">Style</option>
-                <option value="fashion">Fashion</option>
-                <option value="food">Food</option>
-                <option value="culture">Culture</option>
-                <option value="travel">Travel</option>
-                <option value="coding">Coding</option>
+                <option value="gaming">Gaming</option>
+                <option value="reviews">Reviews</option>
+                <option value="tech">Tech</option>
+                <option value="videos">Videos</option>
+                <option value="movies">Movies</option>
+                <option value="tv">TV</option>
               </select>
+              {subcategories[catSlug] && subcategories[catSlug].length > 0 && (
+                <select
+                  className={styles.select}
+                  onChange={(e) => setSubcategorySlug(e.target.value)}
+                  value={subcategorySlug}
+                >
+                  <option value="">Select a subcategory</option>
+                  {subcategories[catSlug].map((sub) => (
+                    <option key={sub} value={sub.toLowerCase()}>
+                      {sub}
+                    </option>
+                  ))}
+                </select>
+              )}
             </div>
             <div className={styles.editorWrapper}>
               <div className={styles.editorToolbar}>

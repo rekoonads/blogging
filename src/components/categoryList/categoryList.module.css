@@ -23,24 +23,55 @@
   border-radius: 10px;
 }
 
-.category.style {
-  background-color: #57c4ff31;
-}
-.category.fashion {
-  background-color: #da85c731;
-}
-.category.food {
-  background-color: #7fb88133;
-}
-.category.travel {
+.gaming {
   background-color: #ff795736;
 }
-.category.culture {
-  background-color: #ffb04f45;
+
+.reviews {
+  background-color: #57c4ff31;
 }
-.category.coding {
+
+.tech {
   background-color: #5e4fff31;
 }
+
+.videos {
+  background-color: #7fb88133;
+}
+
+.movies {
+  background-color: #da85c731;
+}
+
+.tv {
+  background-color: #ffb04f45;
+}
+
+/* Keeping the old categories for reference */
+.style {
+  background-color: #57c4ff31;
+}
+
+.fashion {
+  background-color: #da85c731;
+}
+
+.food {
+  background-color: #7fb88133;
+}
+
+.travel {
+  background-color: #ff795736;
+}
+
+.culture {
+  background-color: #ffb04f45;
+}
+
+.coding {
+  background-color: #5e4fff31;
+}
+
 .image {
   border-radius: 50%;
 }

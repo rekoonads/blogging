@@ -1,19 +1,34 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import styles from "./menuPosts.module.css";
 
-async function getPosts() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/menu`, {
-    cache: "no-store",
-  });
-  if (!res.ok) {
-    throw new Error("Failed to fetch posts");
-  }
-  return res.json();
-}
+const MenuPosts = ({ withImage }) => {
+  const [posts, setPosts] = useState([]);
 
-const MenuPosts = async ({ withImage }) => {
-  const posts = await getPosts();
+  useEffect(() => {
+    const getPosts = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/posts/menu`,
+          {
+            cache: "no-store",
+          }
+        );
+        if (!res.ok) {
+          throw new Error("Failed to fetch posts");
+        }
+        const data = await res.json();
+        setPosts(data);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
+
+    getPosts();
+  }, []);
 
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
@@ -40,8 +55,17 @@ const MenuPosts = async ({ withImage }) => {
           )}
           <div className={styles.textContainer}>
             <span className={`${styles.category} ${styles[post.cat.slug]}`}>
-              {post.cat.slug}
+              {post.cat.title}
             </span>
+            {post.subcategory && (
+              <span
+                className={`${styles.subcategory} ${
+                  styles[post.subcategory.slug]
+                }`}
+              >
+                {post.subcategory.title}
+              </span>
+            )}
             <h3 className={styles.postTitle}>{post.title}</h3>
             <div className={styles.detail}>
               <span className={styles.username}>{post.user.name}</span>
