@@ -20,6 +20,7 @@
 
 .link {
   cursor: pointer;
+  text-transform: capitalize;
 }
 
 .megaMenu {
@@ -87,9 +88,19 @@
   .links {
     width: 100%;
     justify-content: space-between;
+    flex-wrap: wrap;
   }
-  .link,
   .megaMenu {
-    display: none;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .megaMenuContent {
+    position: static;
+    box-shadow: none;
+    padding: 0;
+  }
+  .megaMenuItem {
+    padding: 5px;
+    font-size: 16px;
   }
 }

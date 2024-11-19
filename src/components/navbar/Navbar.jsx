@@ -6,11 +6,24 @@ import AuthLinks from "../authLinks/AuthLinks";
 import ThemeToggle from "../themeToggle/ThemeToggle";
 import styles from "./navbar.module.css";
 
-const Navbar = () => {
-  const [isReviewsOpen, setIsReviewsOpen] = useState(false);
+export default function Navbar() {
+  const [openMenu, setOpenMenu] = useState(null);
 
-  const toggleReviews = () => {
-    setIsReviewsOpen(!isReviewsOpen);
+  const menuItems = {
+    reviews: ["Game", "Tech", "Movie", "Comic", "TV"],
+    gaming: ["PC", "PlayStation", "Xbox", "Mobile", "Esports", "Nintendo"],
+    tech: [],
+    videos: [],
+    movies: [],
+    tv: [],
+  };
+
+  const handleMouseEnter = (menu) => {
+    setOpenMenu(menu);
+  };
+
+  const handleMouseLeave = () => {
+    setOpenMenu(null);
   };
 
   return (
@@ -19,37 +32,36 @@ const Navbar = () => {
         <Link href={"/"}>Peen</Link>
       </div>
       <div className={styles.links}>
-        <div
-          className={styles.megaMenu}
-          onMouseEnter={() => setIsReviewsOpen(true)}
-          onMouseLeave={() => setIsReviewsOpen(false)}
-        >
-          <span className={styles.link}>Reviews</span>
-          {isReviewsOpen && (
-            <div className={styles.megaMenuContent}>
-              <Link href="/reviews/game" className={styles.megaMenuItem}>
-                Game Reviews
-              </Link>
-              <Link href="/reviews/tech" className={styles.megaMenuItem}>
-                Tech Reviews
-              </Link>
-              <Link href="/reviews/movie" className={styles.megaMenuItem}>
-                Movie Reviews
-              </Link>
-              <Link href="/reviews/comic" className={styles.megaMenuItem}>
-                Comic Reviews
-              </Link>
-              <Link href="/reviews/tv" className={styles.megaMenuItem}>
-                TV Series Reviews
-              </Link>
-            </div>
-          )}
-        </div>
+        {Object.keys(menuItems).map((menu) => (
+          <div
+            key={menu}
+            className={styles.megaMenu}
+            onMouseEnter={() => handleMouseEnter(menu)}
+            onMouseLeave={handleMouseLeave}
+          >
+            <span className={styles.link}>
+              {menu.charAt(0).toUpperCase() + menu.slice(1)}
+            </span>
+            {openMenu === menu && menuItems[menu].length > 0 && (
+              <div className={styles.megaMenuContent}>
+                {menuItems[menu].map((item) => (
+                  <Link
+                    key={item}
+                    href={`/${menu}/${item.toLowerCase()}`}
+                    className={styles.megaMenuItem}
+                  >
+                    {item}{" "}
+                    {menu.slice(0, -1).charAt(0).toUpperCase() +
+                      menu.slice(0, -1).slice(1)}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
         <ThemeToggle />
         <AuthLinks />
       </div>
     </div>
   );
-};
-
-export default Navbar;
+}
