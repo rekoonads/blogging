@@ -45,8 +45,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  Post          Post[]
-  Comment       Comment[]
+  posts         Post[]
+  comments      Comment[]
 }
 
 model VerificationToken {
@@ -62,8 +62,8 @@ model Category {
   slug          String        @unique
   title         String
   img           String?
-  Posts         Post[]
-  Subcategories Subcategory[]
+  posts         Post[]
+  subcategories Subcategory[]
 }
 
 model Subcategory {
@@ -72,7 +72,7 @@ model Subcategory {
   title      String
   categoryId String
   category   Category @relation(fields: [categoryId], references: [id])
-  Posts      Post[]
+  posts      Post[]
 }
 
 model Post {

@@ -5,13 +5,14 @@ import styles from "./subcategoryPage.module.css";
 
 async function getSubcategoryPosts(category, subcategory) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/posts/category/${category}/${subcategory}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/posts?category=${category}&subcategory=${subcategory}`,
     {
       cache: "no-store",
     }
   );
 
   if (!res.ok) {
+    console.error("Error fetching subcategory posts:", await res.text());
     return notFound();
   }
 
@@ -19,7 +20,22 @@ async function getSubcategoryPosts(category, subcategory) {
 }
 
 export default async function SubcategoryPage({ params }) {
-  const posts = await getSubcategoryPosts(params.category, params.subcategory);
+  const { posts, count } = await getSubcategoryPosts(
+    params.category,
+    params.subcategory
+  );
+
+  console.log("Fetched posts:", posts);
+
+  if (!posts || posts.length === 0) {
+    return (
+      <div className={styles.container}>
+        <h1 className={styles.title}>
+          No posts found for {params.category} - {params.subcategory}
+        </h1>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
@@ -55,6 +71,7 @@ export default async function SubcategoryPage({ params }) {
           </Link>
         ))}
       </div>
+      <p>Total posts: {count}</p>
     </div>
   );
 }
