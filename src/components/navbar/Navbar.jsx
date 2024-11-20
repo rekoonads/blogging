@@ -32,27 +32,25 @@ export default function Navbar() {
         <Link href={"/"}>Peen</Link>
       </div>
       <div className={styles.links}>
-        {Object.keys(menuItems).map((menu) => (
+        {Object.entries(menuItems).map(([menu, subcategories]) => (
           <div
             key={menu}
             className={styles.megaMenu}
             onMouseEnter={() => handleMouseEnter(menu)}
             onMouseLeave={handleMouseLeave}
           >
-            <span className={styles.link}>
+            <Link href={`/category/${menu}`} className={styles.link}>
               {menu.charAt(0).toUpperCase() + menu.slice(1)}
-            </span>
-            {openMenu === menu && menuItems[menu].length > 0 && (
+            </Link>
+            {openMenu === menu && subcategories.length > 0 && (
               <div className={styles.megaMenuContent}>
-                {menuItems[menu].map((item) => (
+                {subcategories.map((item) => (
                   <Link
                     key={item}
-                    href={`/${menu}/${item.toLowerCase()}`}
+                    href={`/category/${menu}/${item.toLowerCase()}`}
                     className={styles.megaMenuItem}
                   >
-                    {item}{" "}
-                    {menu.slice(0, -1).charAt(0).toUpperCase() +
-                      menu.slice(0, -1).slice(1)}
+                    {item}
                   </Link>
                 ))}
               </div>

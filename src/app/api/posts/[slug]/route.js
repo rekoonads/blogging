@@ -14,11 +14,22 @@ export const GET = async (req, { params }) => {
       },
     });
 
-    return new NextResponse(JSON.stringify(post), { status: 200 });
+    if (!post) {
+      return new NextResponse(JSON.stringify({ message: "Post not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    return new NextResponse(JSON.stringify(post), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (err) {
-    console.log(err);
+    console.error("Error fetching post:", err);
     return new NextResponse(
-      JSON.stringify({ message: "Something went wrong!" }, { status: 500 })
+      JSON.stringify({ message: "Something went wrong!", error: err.message }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
 };

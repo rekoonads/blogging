@@ -134,7 +134,7 @@ export default function WritePage() {
         img: media,
         slug: slugify(title),
         catSlug: catSlug || "gaming",
-        subcategorySlug,
+        subcategorySlug, // Send the subcategory slug, not the ID
       }),
     });
 

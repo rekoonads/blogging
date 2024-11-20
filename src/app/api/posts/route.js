@@ -7,7 +7,7 @@ export const GET = async (req) => {
 
   const page = parseInt(searchParams.get("page") || "1", 10);
   const cat = searchParams.get("cat");
-  const subcategoryId = searchParams.get("subcategoryId");
+  const subcategorySlug = searchParams.get("subcategory");
 
   const POST_PER_PAGE = 2;
 
@@ -16,7 +16,7 @@ export const GET = async (req) => {
     skip: POST_PER_PAGE * (page - 1),
     where: {
       ...(cat && { catSlug: cat }),
-      ...(subcategoryId && { subcategoryId: subcategoryId }),
+      ...(subcategorySlug && { subcategory: { slug: subcategorySlug } }),
     },
     include: {
       user: {
@@ -38,11 +38,12 @@ export const GET = async (req) => {
       prisma.post.findMany(query),
       prisma.post.count({ where: query.where }),
     ]);
-    return new NextResponse(JSON.stringify({ posts, count }, { status: 200 }));
+    return new NextResponse(JSON.stringify({ posts, count }), { status: 200 });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return new NextResponse(
-      JSON.stringify({ message: "Something went wrong!" }, { status: 500 })
+      JSON.stringify({ message: "Something went wrong!" }),
+      { status: 500 }
     );
   }
 };
@@ -52,15 +53,28 @@ export const POST = async (req) => {
   const session = await getAuthSession();
 
   if (!session) {
-    return new NextResponse(
-      JSON.stringify({ message: "Not Authenticated!" }, { status: 401 })
-    );
+    return new NextResponse(JSON.stringify({ message: "Not Authenticated!" }), {
+      status: 401,
+    });
   }
 
   try {
     const body = await req.json();
-    const { title, desc, img, slug, catSlug, subcategoryId } = body;
+    const { title, desc, img, slug, catSlug, subcategorySlug } = body;
 
+    // First, find the subcategory ID based on the slug
+    let subcategoryId = null;
+    if (subcategorySlug) {
+      const subcategory = await prisma.subcategory.findUnique({
+        where: { slug: subcategorySlug },
+        select: { id: true },
+      });
+      if (subcategory) {
+        subcategoryId = subcategory.id;
+      }
+    }
+
+    // Now create the post with the subcategoryId
     const post = await prisma.post.create({
       data: {
         title,
@@ -68,16 +82,17 @@ export const POST = async (req) => {
         img,
         slug,
         catSlug,
-        subcategoryId, // Direct assignment for MongoDB
+        subcategoryId,
         userEmail: session.user.email,
       },
     });
 
-    return new NextResponse(JSON.stringify(post, { status: 200 }));
+    return new NextResponse(JSON.stringify(post), { status: 200 });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return new NextResponse(
-      JSON.stringify({ message: "Something went wrong!" }, { status: 500 })
+      JSON.stringify({ message: "Something went wrong!", error: err.message }),
+      { status: 500 }
     );
   }
 };
