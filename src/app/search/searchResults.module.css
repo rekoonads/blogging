@@ -1,0 +1,80 @@
+/* app/search/SearchResults.module.css */
+.resultsContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.loading {
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+}
+
+.noResults {
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+}
+
+.resultItem {
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  transition: box-shadow 0.3s ease;
+}
+
+.resultItem:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.resultTitle {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #333;
+  font-size: 24px;
+}
+
+.resultExcerpt {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.resultMeta {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #888;
+}
+
+.authorInfo {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+}
+
+.authorImage {
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.authorName {
+  font-weight: 600;
+}
+
+.resultDate {
+  margin-right: 15px;
+}
+
+.commentCount {
+  display: flex;
+  align-items: center;
+}
+
+.commentCount::before {
+  content: "💬";
+  margin-right: 5px;
+}

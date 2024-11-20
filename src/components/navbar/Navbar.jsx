@@ -4,7 +4,9 @@ import { useState } from "react";
 import Link from "next/link";
 import AuthLinks from "../authLinks/AuthLinks";
 import ThemeToggle from "../themeToggle/ThemeToggle";
+
 import styles from "./navbar.module.css";
+import SearchBar from "../searchBar/SearchBar";
 
 export default function Navbar() {
   const [openMenu, setOpenMenu] = useState(null);
@@ -57,6 +59,7 @@ export default function Navbar() {
             )}
           </div>
         ))}
+        <SearchBar />
         <ThemeToggle />
         <AuthLinks />
       </div>

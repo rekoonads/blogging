@@ -39,9 +39,6 @@ export async function GET(req) {
       prisma.post.count({ where: query.where }),
     ]);
 
-    console.log("Fetched posts:", posts);
-    console.log("Query:", query);
-
     return NextResponse.json({ posts, count }, { status: 200 });
   } catch (err) {
     console.error("Error in GET /api/posts:", err);
@@ -51,6 +48,8 @@ export async function GET(req) {
     );
   }
 }
+
+// ... rest of the code remains the same
 
 export async function POST(req) {
   const session = await getAuthSession();

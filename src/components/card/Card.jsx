@@ -16,9 +16,9 @@ const Card = ({ item }) => {
       <div className={styles.textContainer}>
         <div className={styles.detail}>
           <span className={styles.date}>
-            {item.createdAt.substring(0, 10)} -{" "}
+            {new Date(item.createdAt).toLocaleDateString()} -{" "}
           </span>
-          <span className={styles.category}>{item.catSlug}</span>
+          <span className={styles.category}>{item.cat.title}</span>
         </div>
         <Link href={`/posts/${item.slug}`}>
           <h1 className={styles.title}>{item.title}</h1>
