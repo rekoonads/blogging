@@ -1,0 +1,115 @@
+.container {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  color: #333;
+  font-family: Arial, sans-serif;
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.lastUpdated {
+  color: #7f8c8d;
+  margin-bottom: 2rem;
+}
+
+.layout {
+  display: flex;
+  gap: 2rem;
+}
+
+.sidebar {
+  width: 250px;
+  position: sticky;
+  top: 2rem;
+  align-self: flex-start;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin-bottom: 0.5rem;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: #34495e;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.sidebar a:hover {
+  color: #3498db;
+}
+
+.sidebar a.active {
+  color: #3498db;
+  font-weight: 700;
+}
+
+.mainContent {
+  flex: 1;
+}
+
+.mainContent h2 {
+  font-size: 1.8rem;
+  color: #2c3e50;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.mainContent h3 {
+  font-size: 1.4rem;
+  color: #34495e;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.mainContent p {
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.mainContent ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.mainContent li {
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    position: static;
+    margin-bottom: 2rem;
+  }
+
+  .sidebar ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .sidebar li {
+    margin-bottom: 0;
+  }
+}

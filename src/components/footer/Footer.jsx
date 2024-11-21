@@ -27,7 +27,7 @@ const Footer = () => {
       <div className={styles.links}>
         <div className={styles.list}>
           <span className={styles.listTitle}>Links</span>
-          <Link href="/">Homepage</Link>
+          <Link href="/privacy-policy">Privacy</Link>
           <Link href="/">Blog</Link>
           <Link href="/">About</Link>
           <Link href="/">Contact</Link>

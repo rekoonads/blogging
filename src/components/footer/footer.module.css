@@ -5,6 +5,7 @@
   align-items: center;
   justify-content: space-between;
   color: var(--softTextColor);
+  box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.1);
 }
 
 .info {
@@ -57,6 +58,7 @@
     gap: 50px;
   }
 }
+
 @media screen and (max-width: 768px) {
   .container {
     flex-direction: column;
@@ -68,6 +70,7 @@
     justify-content: space-between;
   }
 }
+
 @media screen and (max-width: 640px) {
   .links {
     font-size: 14px;
