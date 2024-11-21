@@ -1,107 +1,213 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  background-color: var(--bg);
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding-bottom: 20px;
-  padding-top: 20px;
+  padding: 0.5rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .logo {
-  font-size: 36px;
+  font-size: 1.5rem;
   font-weight: bold;
+  text-decoration: none;
+  color: var(--textColor);
 }
 
-.links {
+.menuContainer {
   display: flex;
   align-items: center;
-  gap: 20px;
 }
 
-.link {
-  cursor: pointer;
-  text-transform: capitalize;
+.menu {
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
-.megaMenu {
+.menuItem {
   position: relative;
+  margin-right: 1rem;
 }
 
-.megaMenuContent {
+.menuLink {
+  text-decoration: none;
+  color: var(--textColor);
+  font-weight: 500;
+  text-transform: capitalize;
+  padding: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.menuLink:hover {
+  color: var(--softTextColor);
+}
+
+.submenu {
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: #fff;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
+  background-color: var(--bg);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   min-width: 200px;
-  z-index: 1000;
+  display: none;
+  z-index: 1;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
-.megaMenuItem {
-  padding: 10px;
+.menuItem:hover .submenu {
+  display: block;
+}
+
+.submenuItem {
+  padding: 0.5rem;
+}
+
+.submenuLink {
   text-decoration: none;
-  color: #333;
+  color: var(--textColor);
+  display: block;
+  padding: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.submenuLink:hover {
+  background-color: var(--softBg);
+}
+
+.navActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.iconLink {
+  color: var(--textColor);
+  transition: color 0.3s ease;
+}
+
+.iconLink:hover {
+  color: var(--softTextColor);
+}
+
+.loginLink {
+  text-decoration: none;
+  color: var(--textColor);
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.loginLink:hover {
+  color: var(--softTextColor);
+}
+
+.mobileMenuButton {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.hamburger {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: var(--textColor);
+  position: relative;
   transition: background-color 0.3s;
 }
 
-.megaMenuItem:hover {
-  background-color: #f0f0f0;
+.hamburger::before,
+.hamburger::after {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 2px;
+  background-color: var(--textColor);
+  transition: transform 0.3s;
 }
 
-@media screen and (max-width: 1280px) {
-  .logo {
-    font-size: 32px;
-  }
-  .links {
-    font-size: 18px;
-    gap: 15px;
-  }
+.hamburger::before {
+  top: -6px;
 }
 
-@media screen and (max-width: 1024px) {
-  .logo {
-    font-size: 28px;
-  }
+.hamburger::after {
+  bottom: -6px;
 }
 
-@media screen and (max-width: 768px) {
-  .logo {
-    font-size: 24px;
-  }
-  .links {
-    gap: 10px;
-  }
+.mobileMenuOpen .hamburger {
+  background-color: transparent;
 }
 
-@media screen and (max-width: 640px) {
-  .container {
+.mobileMenuOpen .hamburger::before {
+  transform: rotate(45deg) translate(4px, 4px);
+}
+
+.mobileMenuOpen .hamburger::after {
+  transform: rotate(-45deg) translate(4px, -4px);
+}
+
+@media (max-width: 768px) {
+  .menuContainer {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--bg);
     flex-direction: column;
-    height: auto;
-    padding: 10px;
+    align-items: flex-start;
+    padding: 1rem;
+    display: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
-  .logo {
-    margin-bottom: 10px;
+
+  .mobileMenuOpen {
+    display: flex;
   }
-  .links {
+
+  .menu {
+    flex-direction: column;
     width: 100%;
-    justify-content: space-between;
-    flex-wrap: wrap;
   }
-  .megaMenu {
-    width: 100%;
-    margin-bottom: 10px;
+
+  .menuItem {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
   }
-  .megaMenuContent {
+
+  .submenu {
     position: static;
     box-shadow: none;
-    padding: 0;
+    display: none;
+    padding-left: 1rem;
   }
-  .megaMenuItem {
-    padding: 5px;
-    font-size: 16px;
+
+  .menuItem:hover .submenu {
+    display: none;
+  }
+
+  .menuItem.active .submenu {
+    display: block;
+  }
+
+  .navActions {
+    margin-top: 1rem;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .mobileMenuButton {
+    display: block;
   }
 }

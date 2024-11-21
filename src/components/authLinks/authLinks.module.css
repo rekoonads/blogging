@@ -18,7 +18,7 @@
 }
 
 .responsiveMenu {
-  position: absolute;
+  position: fixed;
   top: 100px;
   left: 0;
   background-color: var(--bg);
@@ -27,10 +27,36 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 50px;
-  font-size: 36px;
+  justify-content: flex-start;
+  gap: 20px;
+  font-size: 20px;
   z-index: 999;
+  padding-top: 20px;
+  overflow-y: auto;
+}
+
+.mobileMenuItem {
+  width: 100%;
+  text-align: center;
+}
+
+.mobileMenuItem > a {
+  display: block;
+  padding: 10px;
+  font-weight: bold;
+}
+
+.mobileSubMenu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.mobileSubMenu a {
+  display: block;
+  padding: 5px;
+  font-size: 16px;
 }
 
 @media screen and (max-width: 640px) {
@@ -40,5 +66,10 @@
 
   .link {
     display: none;
+  }
+
+  .responsiveMenu {
+    top: 80px;
+    height: calc(100vh - 80px);
   }
 }
